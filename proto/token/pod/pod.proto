@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package token;
+
+option go_package = "/protogen/token";
+
+message Pod {
+    string version      = 1 [json_name = "version"];
+    string pod_name     = 2 [json_name = "pod_name"];
+    string ip_address   = 3 [json_name = "ip_address"];
+    string host         = 4 [json_name = "host"];
+    string availability_zone  = 5 [json_name = "availability_zone"];
+}
+
+message PodRequest {
+}
+
+message PodResponse {
+  Pod pod = 1;
+}

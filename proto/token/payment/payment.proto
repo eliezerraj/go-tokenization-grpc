@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package token;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "/protogen/token";
+
+message Payment {
+    string account_id   = 1 [json_name = "account_id"];
+    string card_number  = 2 [json_name = "card_number"];
+    string card_type    = 3 [json_name = "card_type"];
+    string currency     = 4 [json_name = "currency"];
+    double amount       = 5 [json_name = "amount"];
+    string status       = 6 [json_name = "status"];
+    string mcc          = 7 [json_name = "mcc"];
+    string card_model   = 8 [json_name = "card_model"];
+    string terminal     = 9 [json_name = "terminal"];
+    string token_data  = 10 [json_name = "token_data"];
+    google.protobuf.Timestamp payment_at = 11 [json_name = "payment_at"];
+}
+
+message PaymentRequest {
+    Payment payment = 1;
+}
+
+message PaymentResponse {
+  Payment payment = 1;
+}
