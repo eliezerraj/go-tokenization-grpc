@@ -20,6 +20,7 @@ type WorkerRepository struct {
 	DatabasePGServer *go_core_pg.DatabasePGServer
 }
 
+// About create a worker repository
 func NewWorkerRepository(databasePGServer *go_core_pg.DatabasePGServer) *WorkerRepository{
 	childLogger.Info().Str("func","NewWorkerRepository").Send()
 
@@ -29,7 +30,7 @@ func NewWorkerRepository(databasePGServer *go_core_pg.DatabasePGServer) *WorkerR
 }
 
 // About add token card 
-func (w WorkerRepository) CreateCardToken(ctx context.Context, tx pgx.Tx, card model.Card) (*model.Card, error){
+func (w *WorkerRepository) CreateCardToken(ctx context.Context, tx pgx.Tx, card model.Card) (*model.Card, error){
 	childLogger.Info().Str("func","CreateCardToken").Interface("trace-resquest-id", ctx.Value("trace-request-id")).Send()
 
 	//trace
@@ -64,7 +65,7 @@ func (w WorkerRepository) CreateCardToken(ctx context.Context, tx pgx.Tx, card m
 }
 
 // About add token card 
-func (w WorkerRepository) GetCardToken(ctx context.Context, card model.Card) (*[]model.Card, error){
+func (w *WorkerRepository) GetCardToken(ctx context.Context, card model.Card) (*[]model.Card, error){
 	childLogger.Info().Str("func","GetCardToken").Interface("trace-resquest-id", ctx.Value("trace-request-id")).Send()
 
 	//trace

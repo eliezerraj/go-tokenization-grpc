@@ -16,6 +16,7 @@ import (
 
 	token_proto_service "github.com/go-tokenization-grpc/protogen/token"
 	proto "github.com/go-tokenization-grpc/protogen/token"
+	//proto "github.com/eliezerraj/go-grpc-proto/protogen/token"
 
 	go_core_observ "github.com/eliezerraj/go-core/observability"
 )
@@ -47,7 +48,7 @@ func (a *AdapterGrpc) GetPod(ctx context.Context, podRequest *proto.PodRequest) 
 	span := tracerProvider.Span(ctx, "adpater.grpc.GetPod")
 	defer span.End()
 
-	pod := proto.Pod{IpAddress: 	a.appServer.InfoPod.IPAddress,
+	pod := proto.Pod{	IpAddress: 	a.appServer.InfoPod.IPAddress,
 						PodName: a.appServer.InfoPod.PodName,
 						AvailabilityZone: a.appServer.InfoPod.AvailabilityZone,
 						Host: a.appServer.Server.Port,
