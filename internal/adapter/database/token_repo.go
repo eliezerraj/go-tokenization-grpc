@@ -38,11 +38,11 @@ func (w *WorkerRepository) CreateCardToken(ctx context.Context, tx pgx.Tx, card 
 	defer span.End()
 
 	// Query e Execute
-	query := `INSERT INTO card_token(fk_id_card_number, 
+	query := `INSERT INTO card_token(fk_id_card, 
 									token,
 									status,
-									create_at,
-									expire_at,
+									created_at,
+									expired_at,
 									tenant_id) 
 			 VALUES($1, $2, $3, $4, $5, $6) RETURNING id`
 
@@ -51,8 +51,8 @@ func (w *WorkerRepository) CreateCardToken(ctx context.Context, tx pgx.Tx, card 
 						card.ID, 
 						card.TokenData, 
 						card.Status, 
-						card.CreateAt, 
-						card.ExpireAt, 
+						card.CreatedAt, 
+						card.ExpiredAt, 
 						card.TenantID)								
 	var id int
 	if err := row.Scan(&id); err != nil {
@@ -83,16 +83,20 @@ func (w *WorkerRepository) GetCardToken(ctx context.Context, card model.Card) (*
 	res_card_list := []model.Card{}
 	
 	// Query e Execute
-	query := `SELECT id, 
-					fk_id_card_number, 
-					token,
-					status,
-					expire_at,
-					create_at,
-					update_at,																									
-					tenant_id	
-				FROM card_token 
-				WHERE token = $1 order by create_at desc`
+	query := `SELECT ct.id, 
+					ca.card_number,
+					ca.card_model, 
+					ct.token,
+					ct.status,
+					ct.expired_at,
+					ct.created_at,
+					ct.updated_at,																									
+					ct.tenant_id	
+				FROM card_token ct,
+					card ca
+				WHERE ct.token = $1
+				and ca.id = ct.fk_id_card 
+				order by ct.created_at desc`
 
 	rows, err := conn.Query(ctx, query, string(card.TokenData))
 	if err != nil {
@@ -102,12 +106,13 @@ func (w *WorkerRepository) GetCardToken(ctx context.Context, card model.Card) (*
 
 	for rows.Next() {
 		err := rows.Scan( 	&res_card.ID, 
-							&res_card.CardNumber, 
+							&res_card.CardNumber,
+							&res_card.Model, 
 							&res_card.TokenData, 
 							&res_card.Status,
-							&res_card.ExpireAt,
-							&res_card.CreateAt,
-							&res_card.UpdateAt,
+							&res_card.ExpiredAt,
+							&res_card.CreatedAt,
+							&res_card.UpdatedAt,
 							&res_card.TenantID)
 		if err != nil {
 			return nil, errors.New(err.Error())

@@ -28,9 +28,9 @@ type Card struct {
 	CardNumber    string                 `protobuf:"bytes,2,opt,name=card_number,proto3" json:"card_number,omitempty"`
 	Status        string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
 	TokenData     string                 `protobuf:"bytes,4,opt,name=token_data,proto3" json:"token_data,omitempty"`
-	CreateAt      *timestamp.Timestamp   `protobuf:"bytes,5,opt,name=create_at,json=created_at,proto3" json:"create_at,omitempty"`
-	ExpireAt      *timestamp.Timestamp   `protobuf:"bytes,6,opt,name=expire_at,json=expired_at,proto3" json:"expire_at,omitempty"`
-	UpdateAt      *timestamp.Timestamp   `protobuf:"bytes,7,opt,name=update_at,json=updated_at,proto3" json:"update_at,omitempty"`
+	CreatedAt     *timestamp.Timestamp   `protobuf:"bytes,5,opt,name=created_at,proto3" json:"created_at,omitempty"`
+	ExpiredAt     *timestamp.Timestamp   `protobuf:"bytes,6,opt,name=expired_at,proto3" json:"expired_at,omitempty"`
+	UpdatedAt     *timestamp.Timestamp   `protobuf:"bytes,7,opt,name=updated_at,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -93,23 +93,23 @@ func (x *Card) GetTokenData() string {
 	return ""
 }
 
-func (x *Card) GetCreateAt() *timestamp.Timestamp {
+func (x *Card) GetCreatedAt() *timestamp.Timestamp {
 	if x != nil {
-		return x.CreateAt
+		return x.CreatedAt
 	}
 	return nil
 }
 
-func (x *Card) GetExpireAt() *timestamp.Timestamp {
+func (x *Card) GetExpiredAt() *timestamp.Timestamp {
 	if x != nil {
-		return x.ExpireAt
+		return x.ExpiredAt
 	}
 	return nil
 }
 
-func (x *Card) GetUpdateAt() *timestamp.Timestamp {
+func (x *Card) GetUpdatedAt() *timestamp.Timestamp {
 	if x != nil {
-		return x.UpdateAt
+		return x.UpdatedAt
 	}
 	return nil
 }
@@ -250,26 +250,29 @@ var File_proto_token_card_card_proto protoreflect.FileDescriptor
 
 const file_proto_token_card_card_proto_rawDesc = "" +
 	"\n" +
-	"\x1bproto/token/card/card.proto\x12\x05token\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa1\x02\n" +
+	"\x1bproto/token/card/card.proto\x12\x05token\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa4\x02\n" +
 	"\x04Card\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12 \n" +
 	"\vcard_number\x18\x02 \x01(\tR\vcard_number\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\x12\x1e\n" +
 	"\n" +
 	"token_data\x18\x04 \x01(\tR\n" +
-	"token_data\x129\n" +
-	"\tcreate_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"created_at\x129\n" +
-	"\texpire_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"expired_at\x129\n" +
-	"\tupdate_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"token_data\x12:\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"created_at\x12:\n" +
+	"\n" +
+	"expired_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"expired_at\x12:\n" +
+	"\n" +
+	"updated_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"updated_at\"3\n" +
 	"\x10CardTokenRequest\x12\x1f\n" +
 	"\x04card\x18\x01 \x01(\v2\v.token.CardR\x04card\"4\n" +
 	"\x11CardTokenResponse\x12\x1f\n" +
 	"\x04card\x18\x01 \x01(\v2\v.token.CardR\x04card\":\n" +
 	"\x15ListCardTokenResponse\x12!\n" +
-	"\x05cards\x18\x01 \x03(\v2\v.token.CardR\x05cardsB4Z2github.com/eliezerraj/go-grpc-proto/protogen/tokenb\x06proto3"
+	"\x05cards\x18\x01 \x03(\v2\v.token.CardR\x05cardsB\x11Z\x0f/protogen/tokenb\x06proto3"
 
 var (
 	file_proto_token_card_card_proto_rawDescOnce sync.Once
@@ -292,9 +295,9 @@ var file_proto_token_card_card_proto_goTypes = []any{
 	(*timestamp.Timestamp)(nil),   // 4: google.protobuf.Timestamp
 }
 var file_proto_token_card_card_proto_depIdxs = []int32{
-	4, // 0: token.Card.create_at:type_name -> google.protobuf.Timestamp
-	4, // 1: token.Card.expire_at:type_name -> google.protobuf.Timestamp
-	4, // 2: token.Card.update_at:type_name -> google.protobuf.Timestamp
+	4, // 0: token.Card.created_at:type_name -> google.protobuf.Timestamp
+	4, // 1: token.Card.expired_at:type_name -> google.protobuf.Timestamp
+	4, // 2: token.Card.updated_at:type_name -> google.protobuf.Timestamp
 	0, // 3: token.CardTokenRequest.card:type_name -> token.Card
 	0, // 4: token.CardTokenResponse.card:type_name -> token.Card
 	0, // 5: token.ListCardTokenResponse.cards:type_name -> token.Card

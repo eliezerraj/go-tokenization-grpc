@@ -174,7 +174,7 @@ const file_proto_token_health_health_proto_rawDesc = "" +
 	"\aUNKNOWN\x10\x00\x12\v\n" +
 	"\aSERVING\x10\x01\x12\x0f\n" +
 	"\vNOT_SERVING\x10\x02\x12\x13\n" +
-	"\x0fSERVICE_UNKNOWN\x10\x03B4Z2github.com/eliezerraj/go-grpc-proto/protogen/tokenb\x06proto3"
+	"\x0fSERVICE_UNKNOWN\x10\x03B\x11Z\x0f/protogen/tokenb\x06proto3"
 
 var (
 	file_proto_token_health_health_proto_rawDescOnce sync.Once

@@ -48,26 +48,37 @@ type Card struct {
 	Type			string  	`json:"card_type,omitempty"`
 	Model			string  	`json:"card_model,omitempty"`
 	Status			string  	`json:"status,omitempty"`
-	ExpireAt		time.Time 	`json:"expire_at,omitempty"`
-	CreateAt		time.Time 	`json:"create_at,omitempty"`
-	UpdateAt		*time.Time 	`json:"update_at,omitempty"`
+	ExpiredAt		time.Time 	`json:"expired_at,omitempty"`
+	CreatedAt		time.Time 	`json:"created_at,omitempty"`
+	UpdatedAt		*time.Time 	`json:"updated_at,omitempty"`
 	TenantID		string  	`json:"tenant_id,omitempty"`
 }
 
 type Payment struct {
 	ID				int			`json:"id,omitempty"`
-	FkCardID		int			`json:"fk_card_id,omitempty"`
-	CardNumber		string		`json:"card_number,omitempty"`
+	FkCardId		int			`json:"fk_card_id,omitempty"`
+	CardNumber		string  	`json:"card_number,omitempty"`
+	TokenData		string  	`json:"token_data,omitempty"`
 	FkTerminalId	int			`json:"fk_terminal_id,omitempty"`
-	TerminalName	string		`json:"terminal_name,omitempty"`
+	Terminal		string		`json:"terminal,omitempty"`
 	CardType		string  	`json:"card_type,omitempty"`
-	CardMode		string  	`json:"card_model,omitempty"`
+	CardModel		string  	`json:"card_model,omitempty"`
 	PaymentAt		time.Time	`json:"payment_at,omitempty"`
-	MCC				string  	`json:"mcc,omitempty"`
+	Mcc				string  	`json:"mcc,omitempty"`
 	Status			string  	`json:"status,omitempty"`
 	Currency		string  	`json:"currency,omitempty"`
 	Amount			float64 	`json:"amount,omitempty"`
-	CreateAt		time.Time 	`json:"create_at,omitempty"`
-	UpdateAt		*time.Time 	`json:"update_at,omitempty"`
+	CreatedAt		time.Time 	`json:"created_at,omitempty"`
+	UpdatedAt		*time.Time 	`json:"updated_at,omitempty"`
 	TenantID		string  	`json:"tenant_id,omitempty"`
+}
+
+type Terminal struct {
+	ID				int			`json:"id,omitempty"`
+	Name			string		`json:"name,omitempty"`
+	CoordX			float64  	`json:"coord_x,omitempty"`
+	CoordY			float64  	`json:"coord_y,omitempty"`
+	Status			string  	`json:"status,omitempty"`
+	CreatedAt		time.Time 	`json:"created_at,omitempty"`
+	UpdatedAt		*time.Time 	`json:"updated_at,omitempty"`
 }

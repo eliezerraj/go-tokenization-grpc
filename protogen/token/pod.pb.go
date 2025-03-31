@@ -194,7 +194,7 @@ const file_proto_token_pod_pod_proto_rawDesc = "" +
 	"PodRequest\"+\n" +
 	"\vPodResponse\x12\x1c\n" +
 	"\x03pod\x18\x01 \x01(\v2\n" +
-	".token.PodR\x03podB4Z2github.com/eliezerraj/go-grpc-proto/protogen/tokenb\x06proto3"
+	".token.PodR\x03podB\x11Z\x0f/protogen/tokenb\x06proto3"
 
 var (
 	file_proto_token_pod_pod_proto_rawDescOnce sync.Once

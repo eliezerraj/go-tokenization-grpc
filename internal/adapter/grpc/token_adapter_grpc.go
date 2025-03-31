@@ -1,6 +1,7 @@
 package grpc
 
 import (
+	"fmt"
 	"context"
 
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/go-tokenization-grpc/internal/core/service"
 	"github.com/go-tokenization-grpc/internal/core/model"
+	"github.com/go-tokenization-grpc/internal/core/erro"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -91,7 +93,9 @@ func (a *AdapterGrpc) CreateCardToken(ctx context.Context, cardTokenRequest *pro
 
 	res_card_proto := proto.Card{ 	Id: uint32(res_card.ID),
 									CardNumber: res_card.CardNumber,
-							 		TokenData: res_card.TokenData }
+							 		TokenData: res_card.TokenData,
+									CreatedAt: timestamppb.New(res_card.CreatedAt),
+									ExpiredAt: timestamppb.New(res_card.ExpiredAt), }
 
 	card_proto_reponse := &proto.CardTokenResponse { Card: &res_card_proto }
 	
@@ -127,12 +131,81 @@ func (a *AdapterGrpc) GetCardToken(ctx context.Context, cardTokenRequest *proto.
 										CardNumber: v.CardNumber,
 										Status: v.Status,
 										TokenData: v.TokenData,
-										CreateAt: timestamppb.New(v.CreateAt),
-										ExpireAt: timestamppb.New(v.ExpireAt), }
+										CreatedAt: timestamppb.New(v.CreatedAt),
+										ExpiredAt: timestamppb.New(v.ExpiredAt), }
 		res_list_card_proto = append(res_list_card_proto, &res_card_proto)
 	}
 
 	res_list_card_proto_reponse := &proto.ListCardTokenResponse{Cards: res_list_card_proto}
 
 	return res_list_card_proto_reponse, nil
+}
+
+// About get card from token
+func (a *AdapterGrpc) AddPaymentToken(ctx context.Context, paymentRequest *proto.PaymentTokenRequest) (*proto.PaymentTokenResponse, error) {
+	childLogger.Info().Str("func","AddPaymentToken").Interface("trace-resquest-id", ctx.Value("trace-request-id")).Interface("paymentRequest", paymentRequest).Send()
+
+	// Trace
+	span := tracerProvider.Span(ctx, "adpater.grpc.AddPaymentToken")
+	defer span.End()
+
+	// Prepare
+	payment := model.Payment{ TokenData: paymentRequest.Payment.TokenData,
+							  Terminal: paymentRequest.Payment.Terminal,	
+							  Currency: paymentRequest.Payment.Currency,
+							  Amount: paymentRequest.Payment.Amount,
+							  CardType: paymentRequest.Payment.CardType,
+							  Mcc: paymentRequest.Payment.Mcc,								
+							}
+
+	// Call service
+	res_payment, err := a.workerService.AddPaymentToken(ctx, payment)
+	if (err != nil) {
+		switch err {
+		case erro.ErrCardTypeInvalid:
+			s := status.New(codes.InvalidArgument, err.Error())
+			s, _ = s.WithDetails(&errdetails.BadRequest{
+				FieldViolations: []*errdetails.BadRequest_FieldViolation{
+					{
+						Field:       "cart.type",
+						Description: fmt.Sprintf("card type (%v) informed not valid", paymentRequest.Payment.CardType),
+					},
+				},
+			})
+			return nil, s.Err()		
+		case erro.ErrNotFound:
+			s := status.New(codes.InvalidArgument, err.Error())
+			s, _ = s.WithDetails(&errdetails.BadRequest{
+				FieldViolations: []*errdetails.BadRequest_FieldViolation{
+					{
+						Field:       "token/terminal",
+						Description: fmt.Sprintf("token (%v) or terminal (%v) informed not found", paymentRequest.Payment.TokenData, paymentRequest.Payment.Terminal),
+					},
+				},
+			})
+			return nil, s.Err()
+		default:
+			s := status.New(codes.Internal, err.Error())
+			s, _ = s.WithDetails(&errdetails.ErrorInfo{
+				Domain: "service",
+				Reason: "service payment unreacheable",
+			})
+			return nil, s.Err()
+		}
+	}	
+
+	res_payment_proto_response := &proto.PaymentTokenResponse {
+		Payment: &proto.Payment{	TokenData: res_payment.TokenData,
+									CardType:  res_payment.CardType,
+									Status:  res_payment.Status,
+									Currency:  res_payment.Currency,
+									Amount:  res_payment.Amount,
+									CardModel:  res_payment.CardModel,
+									Mcc: res_payment.Mcc,
+									Terminal: res_payment.Terminal,
+									PaymentAt: timestamppb.New(res_payment.PaymentAt),
+							},	
+	}
+
+	return res_payment_proto_response, nil
 }

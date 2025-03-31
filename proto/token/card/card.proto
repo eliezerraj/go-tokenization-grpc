@@ -11,9 +11,9 @@ message Card {
     string card_number  = 2 [json_name = "card_number"];
     string status       = 3 [json_name = "status"];
     string token_data  = 4 [json_name = "token_data"];
-    google.protobuf.Timestamp create_at = 5 [json_name = "created_at"];
-    google.protobuf.Timestamp expire_at = 6 [json_name = "expired_at"];
-    google.protobuf.Timestamp update_at = 7 [json_name = "updated_at"];
+    google.protobuf.Timestamp created_at = 5 [json_name = "created_at"];
+    google.protobuf.Timestamp expired_at = 6 [json_name = "expired_at"];
+    google.protobuf.Timestamp updated_at = 7 [json_name = "updated_at"];
 }
 
 message CardTokenRequest {

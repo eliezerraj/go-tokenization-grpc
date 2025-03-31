@@ -18,5 +18,5 @@ service TokenService {
     rpc CreateCardToken(CardTokenRequest) returns (CardTokenResponse) {};
     rpc GetCardToken(CardTokenRequest) returns (ListCardTokenResponse) {};
     
-    rpc GenerateTokenPayment(PaymentRequest) returns (PaymentResponse) {};
+    rpc AddPaymentToken(PaymentTokenRequest) returns (PaymentTokenResponse) {};
 }
