@@ -26,13 +26,14 @@ type Payment struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TokenData     string                 `protobuf:"bytes,1,opt,name=token_data,proto3" json:"token_data,omitempty"`
 	CardType      string                 `protobuf:"bytes,2,opt,name=card_type,proto3" json:"card_type,omitempty"`
-	Currency      string                 `protobuf:"bytes,3,opt,name=currency,proto3" json:"currency,omitempty"`
-	Amount        float64                `protobuf:"fixed64,4,opt,name=amount,proto3" json:"amount,omitempty"`
-	CardModel     string                 `protobuf:"bytes,5,opt,name=card_model,proto3" json:"card_model,omitempty"`
+	CardModel     string                 `protobuf:"bytes,3,opt,name=card_model,proto3" json:"card_model,omitempty"`
+	Currency      string                 `protobuf:"bytes,4,opt,name=currency,proto3" json:"currency,omitempty"`
+	Amount        float64                `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount,omitempty"`
 	Terminal      string                 `protobuf:"bytes,6,opt,name=terminal,proto3" json:"terminal,omitempty"`
 	Status        string                 `protobuf:"bytes,7,opt,name=status,proto3" json:"status,omitempty"`
 	Mcc           string                 `protobuf:"bytes,8,opt,name=mcc,proto3" json:"mcc,omitempty"`
 	PaymentAt     *timestamp.Timestamp   `protobuf:"bytes,9,opt,name=payment_at,proto3" json:"payment_at,omitempty"`
+	TransactionId string                 `protobuf:"bytes,10,opt,name=transaction_id,proto3" json:"transaction_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -81,6 +82,13 @@ func (x *Payment) GetCardType() string {
 	return ""
 }
 
+func (x *Payment) GetCardModel() string {
+	if x != nil {
+		return x.CardModel
+	}
+	return ""
+}
+
 func (x *Payment) GetCurrency() string {
 	if x != nil {
 		return x.Currency
@@ -93,13 +101,6 @@ func (x *Payment) GetAmount() float64 {
 		return x.Amount
 	}
 	return 0
-}
-
-func (x *Payment) GetCardModel() string {
-	if x != nil {
-		return x.CardModel
-	}
-	return ""
 }
 
 func (x *Payment) GetTerminal() string {
@@ -128,6 +129,13 @@ func (x *Payment) GetPaymentAt() *timestamp.Timestamp {
 		return x.PaymentAt
 	}
 	return nil
+}
+
+func (x *Payment) GetTransactionId() string {
+	if x != nil {
+		return x.TransactionId
+	}
+	return ""
 }
 
 type PaymentTokenRequest struct {
@@ -222,23 +230,25 @@ var File_proto_token_payment_payment_proto protoreflect.FileDescriptor
 
 const file_proto_token_payment_payment_proto_rawDesc = "" +
 	"\n" +
-	"!proto/token/payment/payment.proto\x12\x05token\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9d\x02\n" +
+	"!proto/token/payment/payment.proto\x12\x05token\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc5\x02\n" +
 	"\aPayment\x12\x1e\n" +
 	"\n" +
 	"token_data\x18\x01 \x01(\tR\n" +
 	"token_data\x12\x1c\n" +
-	"\tcard_type\x18\x02 \x01(\tR\tcard_type\x12\x1a\n" +
-	"\bcurrency\x18\x03 \x01(\tR\bcurrency\x12\x16\n" +
-	"\x06amount\x18\x04 \x01(\x01R\x06amount\x12\x1e\n" +
+	"\tcard_type\x18\x02 \x01(\tR\tcard_type\x12\x1e\n" +
 	"\n" +
-	"card_model\x18\x05 \x01(\tR\n" +
+	"card_model\x18\x03 \x01(\tR\n" +
 	"card_model\x12\x1a\n" +
+	"\bcurrency\x18\x04 \x01(\tR\bcurrency\x12\x16\n" +
+	"\x06amount\x18\x05 \x01(\x01R\x06amount\x12\x1a\n" +
 	"\bterminal\x18\x06 \x01(\tR\bterminal\x12\x16\n" +
 	"\x06status\x18\a \x01(\tR\x06status\x12\x10\n" +
 	"\x03mcc\x18\b \x01(\tR\x03mcc\x12:\n" +
 	"\n" +
 	"payment_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"payment_at\"?\n" +
+	"payment_at\x12&\n" +
+	"\x0etransaction_id\x18\n" +
+	" \x01(\tR\x0etransaction_id\"?\n" +
 	"\x13PaymentTokenRequest\x12(\n" +
 	"\apayment\x18\x01 \x01(\v2\x0e.token.PaymentR\apayment\"@\n" +
 	"\x14PaymentTokenResponse\x12(\n" +

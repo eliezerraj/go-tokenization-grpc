@@ -26,11 +26,14 @@ type Card struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	CardNumber    string                 `protobuf:"bytes,2,opt,name=card_number,proto3" json:"card_number,omitempty"`
-	Status        string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
-	TokenData     string                 `protobuf:"bytes,4,opt,name=token_data,proto3" json:"token_data,omitempty"`
-	CreatedAt     *timestamp.Timestamp   `protobuf:"bytes,5,opt,name=created_at,proto3" json:"created_at,omitempty"`
-	ExpiredAt     *timestamp.Timestamp   `protobuf:"bytes,6,opt,name=expired_at,proto3" json:"expired_at,omitempty"`
-	UpdatedAt     *timestamp.Timestamp   `protobuf:"bytes,7,opt,name=updated_at,proto3" json:"updated_at,omitempty"`
+	Type          string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
+	Model         string                 `protobuf:"bytes,4,opt,name=model,proto3" json:"model,omitempty"`
+	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
+	TokenData     string                 `protobuf:"bytes,6,opt,name=token_data,proto3" json:"token_data,omitempty"`
+	Atc           uint32                 `protobuf:"varint,7,opt,name=atc,proto3" json:"atc,omitempty"`
+	CreatedAt     *timestamp.Timestamp   `protobuf:"bytes,8,opt,name=created_at,proto3" json:"created_at,omitempty"`
+	ExpiredAt     *timestamp.Timestamp   `protobuf:"bytes,9,opt,name=expired_at,proto3" json:"expired_at,omitempty"`
+	UpdatedAt     *timestamp.Timestamp   `protobuf:"bytes,10,opt,name=updated_at,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -79,6 +82,20 @@ func (x *Card) GetCardNumber() string {
 	return ""
 }
 
+func (x *Card) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *Card) GetModel() string {
+	if x != nil {
+		return x.Model
+	}
+	return ""
+}
+
 func (x *Card) GetStatus() string {
 	if x != nil {
 		return x.Status
@@ -91,6 +108,13 @@ func (x *Card) GetTokenData() string {
 		return x.TokenData
 	}
 	return ""
+}
+
+func (x *Card) GetAtc() uint32 {
+	if x != nil {
+		return x.Atc
+	}
+	return 0
 }
 
 func (x *Card) GetCreatedAt() *timestamp.Timestamp {
@@ -250,22 +274,26 @@ var File_proto_token_card_card_proto protoreflect.FileDescriptor
 
 const file_proto_token_card_card_proto_rawDesc = "" +
 	"\n" +
-	"\x1bproto/token/card/card.proto\x12\x05token\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa4\x02\n" +
+	"\x1bproto/token/card/card.proto\x12\x05token\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe0\x02\n" +
 	"\x04Card\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12 \n" +
-	"\vcard_number\x18\x02 \x01(\tR\vcard_number\x12\x16\n" +
-	"\x06status\x18\x03 \x01(\tR\x06status\x12\x1e\n" +
+	"\vcard_number\x18\x02 \x01(\tR\vcard_number\x12\x12\n" +
+	"\x04type\x18\x03 \x01(\tR\x04type\x12\x14\n" +
+	"\x05model\x18\x04 \x01(\tR\x05model\x12\x16\n" +
+	"\x06status\x18\x05 \x01(\tR\x06status\x12\x1e\n" +
 	"\n" +
-	"token_data\x18\x04 \x01(\tR\n" +
-	"token_data\x12:\n" +
+	"token_data\x18\x06 \x01(\tR\n" +
+	"token_data\x12\x10\n" +
+	"\x03atc\x18\a \x01(\rR\x03atc\x12:\n" +
 	"\n" +
-	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"created_at\x12:\n" +
 	"\n" +
-	"expired_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"expired_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"expired_at\x12:\n" +
 	"\n" +
-	"updated_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"updated_at\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"updated_at\"3\n" +
 	"\x10CardTokenRequest\x12\x1f\n" +
 	"\x04card\x18\x01 \x01(\v2\v.token.CardR\x04card\"4\n" +

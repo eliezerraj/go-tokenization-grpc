@@ -8,7 +8,6 @@ import (
 	go_core_observ "github.com/eliezerraj/go-core/observability"
 	go_core_pg "github.com/eliezerraj/go-core/database/pg"
 
-	"github.com/jackc/pgx/v5"
 	"github.com/rs/zerolog/log"
 )
 
@@ -30,41 +29,6 @@ func NewWorkerRepository(databasePGServer *go_core_pg.DatabasePGServer) *WorkerR
 }
 
 // About add token card 
-func (w *WorkerRepository) CreateCardToken(ctx context.Context, tx pgx.Tx, card model.Card) (*model.Card, error){
-	childLogger.Info().Str("func","CreateCardToken").Interface("trace-resquest-id", ctx.Value("trace-request-id")).Send()
-
-	//trace
-	span := tracerProvider.Span(ctx, "database.CreateCardToken")
-	defer span.End()
-
-	// Query e Execute
-	query := `INSERT INTO card_token(fk_id_card, 
-									token,
-									status,
-									created_at,
-									expired_at,
-									tenant_id) 
-			 VALUES($1, $2, $3, $4, $5, $6) RETURNING id`
-
-	row := tx.QueryRow(	ctx, 
-						query, 
-						card.ID, 
-						card.TokenData, 
-						card.Status, 
-						card.CreatedAt, 
-						card.ExpiredAt, 
-						card.TenantID)								
-	var id int
-	if err := row.Scan(&id); err != nil {
-		return nil, errors.New(err.Error())
-	}
-
-	card.ID = id
-
-	return &card , nil
-}
-
-// About add token card 
 func (w *WorkerRepository) GetCardToken(ctx context.Context, card model.Card) (*[]model.Card, error){
 	childLogger.Info().Str("func","GetCardToken").Interface("trace-resquest-id", ctx.Value("trace-request-id")).Send()
 
@@ -83,15 +47,17 @@ func (w *WorkerRepository) GetCardToken(ctx context.Context, card model.Card) (*
 	res_card_list := []model.Card{}
 	
 	// Query e Execute
-	query := `SELECT ct.id, 
-					ca.card_number,
-					ca.card_model, 
-					ct.token,
-					ct.status,
-					ct.expired_at,
-					ct.created_at,
-					ct.updated_at,																									
-					ct.tenant_id	
+	query := `SELECT 	ca.id,
+						ca.card_number,
+						ca.card_type,
+						ca.card_model, 
+						ct.token,
+						ca.atc,
+						ct.status,
+						ct.expired_at,
+						ct.created_at,
+						ct.updated_at,																									
+						ct.tenant_id	
 				FROM card_token ct,
 					card ca
 				WHERE ct.token = $1
@@ -107,8 +73,10 @@ func (w *WorkerRepository) GetCardToken(ctx context.Context, card model.Card) (*
 	for rows.Next() {
 		err := rows.Scan( 	&res_card.ID, 
 							&res_card.CardNumber,
+							&res_card.Type,
 							&res_card.Model, 
-							&res_card.TokenData, 
+							&res_card.TokenData,
+							&res_card.Atc, 
 							&res_card.Status,
 							&res_card.ExpiredAt,
 							&res_card.CreatedAt,

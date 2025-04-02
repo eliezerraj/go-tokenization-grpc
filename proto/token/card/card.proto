@@ -9,11 +9,14 @@ option go_package = "/protogen/token";
 message Card {
     uint32 id           = 1 [json_name = "id"];
     string card_number  = 2 [json_name = "card_number"];
-    string status       = 3 [json_name = "status"];
-    string token_data  = 4 [json_name = "token_data"];
-    google.protobuf.Timestamp created_at = 5 [json_name = "created_at"];
-    google.protobuf.Timestamp expired_at = 6 [json_name = "expired_at"];
-    google.protobuf.Timestamp updated_at = 7 [json_name = "updated_at"];
+    string type         = 3 [json_name = "type"];
+    string model        = 4 [json_name = "model"];   
+    string status       = 5 [json_name = "status"];
+    string token_data   = 6 [json_name = "token_data"];
+    uint32 atc          = 7 [json_name = "atc"];
+    google.protobuf.Timestamp created_at = 8 [json_name = "created_at"];
+    google.protobuf.Timestamp expired_at = 9 [json_name = "expired_at"];
+    google.protobuf.Timestamp updated_at = 10 [json_name = "updated_at"];
 }
 
 message CardTokenRequest {
