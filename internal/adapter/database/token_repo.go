@@ -49,6 +49,7 @@ func (w *WorkerRepository) GetCardToken(ctx context.Context, card model.Card) (*
 	// Query e Execute
 	query := `SELECT 	ca.id,
 						ca.card_number,
+						ac.account_id, 
 						ca.card_type,
 						ca.card_model, 
 						ct.token,
@@ -59,9 +60,11 @@ func (w *WorkerRepository) GetCardToken(ctx context.Context, card model.Card) (*
 						ct.updated_at,																									
 						ct.tenant_id	
 				FROM card_token ct,
-					card ca
+					 card ca,
+					 account ac
 				WHERE ct.token = $1
-				and ca.id = ct.fk_id_card 
+				and ca.id = ct.fk_id_card
+				and ac.id = ca.fk_account_id 
 				order by ct.created_at desc`
 
 	rows, err := conn.Query(ctx, query, string(card.TokenData))
@@ -73,6 +76,7 @@ func (w *WorkerRepository) GetCardToken(ctx context.Context, card model.Card) (*
 	for rows.Next() {
 		err := rows.Scan( 	&res_card.ID, 
 							&res_card.CardNumber,
+							&res_card.AccountId,
 							&res_card.Type,
 							&res_card.Model, 
 							&res_card.TokenData,

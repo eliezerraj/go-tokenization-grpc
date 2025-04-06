@@ -30,7 +30,7 @@ import (
 	semconv "go.opentelemetry.io/otel/semconv/v1.17.0"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 
-	grpc_adapter "github.com/go-tokenization-grpc/internal/adapter/grpc"
+	grpc_adapter "github.com/go-tokenization-grpc/internal/adapter/grpc/server"
 )
 
 var childLogger = log.With().Str("component","go-tokenization-grpc").Str("package","internal.infra.server").Logger()
@@ -68,7 +68,7 @@ func (w *WorkerServer) StartGrpcServer(	ctx context.Context,
 
 	res := resource.NewWithAttributes(
 		semconv.SchemaURL,
-		semconv.ServiceName("go-fraud"),
+		semconv.ServiceName("go-tokenization-grpc"),
 	)
 
 	tp := sdktrace.NewTracerProvider(
@@ -85,7 +85,7 @@ func (w *WorkerServer) StartGrpcServer(	ctx context.Context,
 	// create grpc listener
 	listener, err := net.Listen("tcp", appServer.Server.Port)
 	if err != nil {
-		childLogger.Error().Err(err).Msg("ERRO FATAL na abertura do service grpc")
+		childLogger.Error().Err(err).Msg("fatal error open service grpc")
 		panic(err)
 	}
 
@@ -125,7 +125,7 @@ func (w *WorkerServer) StartGrpcServer(	ctx context.Context,
 
 	// run server
 	go func(){
-		childLogger.Info().Str("Starting server:", appServer.Server.Port).Msg("")
+		childLogger.Info().Str("Service Port:", appServer.Server.Port).Send()
 		
 		if err := workerGrpcServer.Serve(listener); err != nil {
 			childLogger.Error().Err(err).Msg("Failed to server!!!")

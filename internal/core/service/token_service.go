@@ -32,7 +32,7 @@ func NewWorkerService(	workerRepository *database.WorkerRepository,
 
 // About get the card from token
 func (s * WorkerService) GetCardToken(ctx context.Context, card model.Card) (*[]model.Card, error){
-	childLogger.Info().Str("func","GetCardToken").Interface("trace-resquest-id", ctx.Value("trace-request-id")).Interface("card", card).Send()
+	childLogger.Info().Str("func","GetCardToken").Interface("trace-request-id", ctx.Value("trace-request-id")).Interface("card", card).Send()
 
 	// Trace
 	span := tracerProvider.Span(ctx, "service.GetCardToken")

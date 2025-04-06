@@ -17,6 +17,7 @@ message Card {
     google.protobuf.Timestamp created_at = 8 [json_name = "created_at"];
     google.protobuf.Timestamp expired_at = 9 [json_name = "expired_at"];
     google.protobuf.Timestamp updated_at = 10 [json_name = "updated_at"];
+    string account_id  = 11 [json_name = "account_id"];
 }
 
 message CardTokenRequest {

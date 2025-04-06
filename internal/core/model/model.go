@@ -45,6 +45,7 @@ type Card struct {
 	ID				int			`json:"id,omitempty"`
 	CardNumber		string  	`json:"card_number,omitempty"`
 	TokenData		string  	`json:"token_data,omitempty"`
+	AccountId		string		`json:"account_id,omitempty"`
 	Type			string  	`json:"card_type,omitempty"`
 	Model			string  	`json:"card_model,omitempty"`
 	Atc				int  		`json:"atc,omitempty"`

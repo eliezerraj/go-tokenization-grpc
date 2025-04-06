@@ -19,12 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TokenService_GetPod_FullMethodName          = "/token.TokenService/GetPod"
-	TokenService_Check_FullMethodName           = "/token.TokenService/Check"
-	TokenService_Watch_FullMethodName           = "/token.TokenService/Watch"
-	TokenService_CreateCardToken_FullMethodName = "/token.TokenService/CreateCardToken"
-	TokenService_GetCardToken_FullMethodName    = "/token.TokenService/GetCardToken"
-	TokenService_AddPaymentToken_FullMethodName = "/token.TokenService/AddPaymentToken"
+	TokenService_GetPod_FullMethodName       = "/token.TokenService/GetPod"
+	TokenService_Check_FullMethodName        = "/token.TokenService/Check"
+	TokenService_Watch_FullMethodName        = "/token.TokenService/Watch"
+	TokenService_GetCardToken_FullMethodName = "/token.TokenService/GetCardToken"
 )
 
 // TokenServiceClient is the client API for TokenService service.
@@ -34,9 +32,7 @@ type TokenServiceClient interface {
 	GetPod(ctx context.Context, in *PodRequest, opts ...grpc.CallOption) (*PodResponse, error)
 	Check(ctx context.Context, in *HealthCheckRequest, opts ...grpc.CallOption) (*HealthCheckResponse, error)
 	Watch(ctx context.Context, in *HealthCheckRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[HealthCheckResponse], error)
-	CreateCardToken(ctx context.Context, in *CardTokenRequest, opts ...grpc.CallOption) (*CardTokenResponse, error)
 	GetCardToken(ctx context.Context, in *CardTokenRequest, opts ...grpc.CallOption) (*ListCardTokenResponse, error)
-	AddPaymentToken(ctx context.Context, in *PaymentTokenRequest, opts ...grpc.CallOption) (*PaymentTokenResponse, error)
 }
 
 type tokenServiceClient struct {
@@ -86,30 +82,10 @@ func (c *tokenServiceClient) Watch(ctx context.Context, in *HealthCheckRequest, 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type TokenService_WatchClient = grpc.ServerStreamingClient[HealthCheckResponse]
 
-func (c *tokenServiceClient) CreateCardToken(ctx context.Context, in *CardTokenRequest, opts ...grpc.CallOption) (*CardTokenResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CardTokenResponse)
-	err := c.cc.Invoke(ctx, TokenService_CreateCardToken_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *tokenServiceClient) GetCardToken(ctx context.Context, in *CardTokenRequest, opts ...grpc.CallOption) (*ListCardTokenResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListCardTokenResponse)
 	err := c.cc.Invoke(ctx, TokenService_GetCardToken_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *tokenServiceClient) AddPaymentToken(ctx context.Context, in *PaymentTokenRequest, opts ...grpc.CallOption) (*PaymentTokenResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(PaymentTokenResponse)
-	err := c.cc.Invoke(ctx, TokenService_AddPaymentToken_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -123,9 +99,7 @@ type TokenServiceServer interface {
 	GetPod(context.Context, *PodRequest) (*PodResponse, error)
 	Check(context.Context, *HealthCheckRequest) (*HealthCheckResponse, error)
 	Watch(*HealthCheckRequest, grpc.ServerStreamingServer[HealthCheckResponse]) error
-	CreateCardToken(context.Context, *CardTokenRequest) (*CardTokenResponse, error)
 	GetCardToken(context.Context, *CardTokenRequest) (*ListCardTokenResponse, error)
-	AddPaymentToken(context.Context, *PaymentTokenRequest) (*PaymentTokenResponse, error)
 	mustEmbedUnimplementedTokenServiceServer()
 }
 
@@ -145,14 +119,8 @@ func (UnimplementedTokenServiceServer) Check(context.Context, *HealthCheckReques
 func (UnimplementedTokenServiceServer) Watch(*HealthCheckRequest, grpc.ServerStreamingServer[HealthCheckResponse]) error {
 	return status.Errorf(codes.Unimplemented, "method Watch not implemented")
 }
-func (UnimplementedTokenServiceServer) CreateCardToken(context.Context, *CardTokenRequest) (*CardTokenResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateCardToken not implemented")
-}
 func (UnimplementedTokenServiceServer) GetCardToken(context.Context, *CardTokenRequest) (*ListCardTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCardToken not implemented")
-}
-func (UnimplementedTokenServiceServer) AddPaymentToken(context.Context, *PaymentTokenRequest) (*PaymentTokenResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddPaymentToken not implemented")
 }
 func (UnimplementedTokenServiceServer) mustEmbedUnimplementedTokenServiceServer() {}
 func (UnimplementedTokenServiceServer) testEmbeddedByValue()                      {}
@@ -222,24 +190,6 @@ func _TokenService_Watch_Handler(srv interface{}, stream grpc.ServerStream) erro
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type TokenService_WatchServer = grpc.ServerStreamingServer[HealthCheckResponse]
 
-func _TokenService_CreateCardToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CardTokenRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TokenServiceServer).CreateCardToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: TokenService_CreateCardToken_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TokenServiceServer).CreateCardToken(ctx, req.(*CardTokenRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _TokenService_GetCardToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CardTokenRequest)
 	if err := dec(in); err != nil {
@@ -254,24 +204,6 @@ func _TokenService_GetCardToken_Handler(srv interface{}, ctx context.Context, de
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TokenServiceServer).GetCardToken(ctx, req.(*CardTokenRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _TokenService_AddPaymentToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PaymentTokenRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TokenServiceServer).AddPaymentToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: TokenService_AddPaymentToken_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TokenServiceServer).AddPaymentToken(ctx, req.(*PaymentTokenRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -292,16 +224,8 @@ var TokenService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TokenService_Check_Handler,
 		},
 		{
-			MethodName: "CreateCardToken",
-			Handler:    _TokenService_CreateCardToken_Handler,
-		},
-		{
 			MethodName: "GetCardToken",
 			Handler:    _TokenService_GetCardToken_Handler,
-		},
-		{
-			MethodName: "AddPaymentToken",
-			Handler:    _TokenService_AddPaymentToken_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

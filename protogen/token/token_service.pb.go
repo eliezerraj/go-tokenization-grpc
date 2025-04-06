@@ -24,41 +24,32 @@ var File_proto_token_token_service_proto protoreflect.FileDescriptor
 
 const file_proto_token_token_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1fproto/token/token_service.proto\x12\x05token\x1a\x19proto/token/pod/pod.proto\x1a\x1bproto/token/card/card.proto\x1a!proto/token/payment/payment.proto\x1a\x1fproto/token/health/health.proto2\xa6\x03\n" +
+	"\x1fproto/token/token_service.proto\x12\x05token\x1a\x19proto/token/pod/pod.proto\x1a\x1bproto/token/card/card.proto\x1a\x1fproto/token/health/health.proto2\x90\x02\n" +
 	"\fTokenService\x121\n" +
 	"\x06GetPod\x12\x11.token.PodRequest\x1a\x12.token.PodResponse\"\x00\x12@\n" +
 	"\x05Check\x12\x19.token.HealthCheckRequest\x1a\x1a.token.HealthCheckResponse\"\x00\x12B\n" +
-	"\x05Watch\x12\x19.token.HealthCheckRequest\x1a\x1a.token.HealthCheckResponse\"\x000\x01\x12F\n" +
-	"\x0fCreateCardToken\x12\x17.token.CardTokenRequest\x1a\x18.token.CardTokenResponse\"\x00\x12G\n" +
-	"\fGetCardToken\x12\x17.token.CardTokenRequest\x1a\x1c.token.ListCardTokenResponse\"\x00\x12L\n" +
-	"\x0fAddPaymentToken\x12\x1a.token.PaymentTokenRequest\x1a\x1b.token.PaymentTokenResponse\"\x00B\x11Z\x0f/protogen/tokenb\x06proto3"
+	"\x05Watch\x12\x19.token.HealthCheckRequest\x1a\x1a.token.HealthCheckResponse\"\x000\x01\x12G\n" +
+	"\fGetCardToken\x12\x17.token.CardTokenRequest\x1a\x1c.token.ListCardTokenResponse\"\x00B\x11Z\x0f/protogen/tokenb\x06proto3"
 
 var file_proto_token_token_service_proto_goTypes = []any{
 	(*PodRequest)(nil),            // 0: token.PodRequest
 	(*HealthCheckRequest)(nil),    // 1: token.HealthCheckRequest
 	(*CardTokenRequest)(nil),      // 2: token.CardTokenRequest
-	(*PaymentTokenRequest)(nil),   // 3: token.PaymentTokenRequest
-	(*PodResponse)(nil),           // 4: token.PodResponse
-	(*HealthCheckResponse)(nil),   // 5: token.HealthCheckResponse
-	(*CardTokenResponse)(nil),     // 6: token.CardTokenResponse
-	(*ListCardTokenResponse)(nil), // 7: token.ListCardTokenResponse
-	(*PaymentTokenResponse)(nil),  // 8: token.PaymentTokenResponse
+	(*PodResponse)(nil),           // 3: token.PodResponse
+	(*HealthCheckResponse)(nil),   // 4: token.HealthCheckResponse
+	(*ListCardTokenResponse)(nil), // 5: token.ListCardTokenResponse
 }
 var file_proto_token_token_service_proto_depIdxs = []int32{
 	0, // 0: token.TokenService.GetPod:input_type -> token.PodRequest
 	1, // 1: token.TokenService.Check:input_type -> token.HealthCheckRequest
 	1, // 2: token.TokenService.Watch:input_type -> token.HealthCheckRequest
-	2, // 3: token.TokenService.CreateCardToken:input_type -> token.CardTokenRequest
-	2, // 4: token.TokenService.GetCardToken:input_type -> token.CardTokenRequest
-	3, // 5: token.TokenService.AddPaymentToken:input_type -> token.PaymentTokenRequest
-	4, // 6: token.TokenService.GetPod:output_type -> token.PodResponse
-	5, // 7: token.TokenService.Check:output_type -> token.HealthCheckResponse
-	5, // 8: token.TokenService.Watch:output_type -> token.HealthCheckResponse
-	6, // 9: token.TokenService.CreateCardToken:output_type -> token.CardTokenResponse
-	7, // 10: token.TokenService.GetCardToken:output_type -> token.ListCardTokenResponse
-	8, // 11: token.TokenService.AddPaymentToken:output_type -> token.PaymentTokenResponse
-	6, // [6:12] is the sub-list for method output_type
-	0, // [0:6] is the sub-list for method input_type
+	2, // 3: token.TokenService.GetCardToken:input_type -> token.CardTokenRequest
+	3, // 4: token.TokenService.GetPod:output_type -> token.PodResponse
+	4, // 5: token.TokenService.Check:output_type -> token.HealthCheckResponse
+	4, // 6: token.TokenService.Watch:output_type -> token.HealthCheckResponse
+	5, // 7: token.TokenService.GetCardToken:output_type -> token.ListCardTokenResponse
+	4, // [4:8] is the sub-list for method output_type
+	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -71,7 +62,6 @@ func file_proto_token_token_service_proto_init() {
 	}
 	file_proto_token_pod_pod_proto_init()
 	file_proto_token_card_card_proto_init()
-	file_proto_token_payment_payment_proto_init()
 	file_proto_token_health_health_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{

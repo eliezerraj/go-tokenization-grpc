@@ -14,7 +14,7 @@ import(
 	"github.com/go-tokenization-grpc/internal/adapter/database"
 
 	go_core_pg "github.com/eliezerraj/go-core/database/pg"  
-	grpc_adapter "github.com/go-tokenization-grpc/internal/adapter/grpc"
+	grpc_adapter "github.com/go-tokenization-grpc/internal/adapter/grpc/server"
 )
 
 var(

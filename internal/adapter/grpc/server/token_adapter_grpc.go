@@ -1,4 +1,4 @@
-package grpc
+package server
 
 import (
 	"context"
@@ -12,6 +12,7 @@ import (
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 
 	token_proto_service "github.com/go-tokenization-grpc/protogen/token"
@@ -21,7 +22,7 @@ import (
 	go_core_observ "github.com/eliezerraj/go-core/observability"
 )
 
-var childLogger = log.With().Str("component","go-tokenization-grpc").Str("package","internal.adapter.grpc").Logger()
+var childLogger = log.With().Str("component","go-tokenization-grpc").Str("package","internal.adapter.grpc.server").Logger()
 var tracerProvider go_core_observ.TracerProvider
 
 type AdapterGrpc struct{
@@ -64,11 +65,17 @@ func (a *AdapterGrpc) GetPod(ctx context.Context, podRequest *proto.PodRequest) 
 
 // About get card from token
 func (a *AdapterGrpc) GetCardToken(ctx context.Context, cardTokenRequest *proto.CardTokenRequest) (*proto.ListCardTokenResponse, error) {
-	childLogger.Info().Str("func","GetCardToken").Interface("trace-resquest-id", ctx.Value("trace-request-id")).Interface("cardTokenRequest", cardTokenRequest).Send()
+	childLogger.Info().Str("func","GetCardToken").Interface("cardTokenRequest", cardTokenRequest).Send()
 
 	// Trace
 	span := tracerProvider.Span(ctx, "adpater.grpc.GetCardToken")
 	defer span.End()
+
+	// get request-id
+	header, _ := metadata.FromIncomingContext(ctx)
+	if len(header.Get("trace-request-id")) > 0 {
+		ctx = context.WithValue(ctx, "trace-request-id", header.Get("trace-request-id")[0])
+	}
 
 	// Prepare
 	card := model.Card{	TokenData: cardTokenRequest.Card.TokenData }
@@ -89,6 +96,7 @@ func (a *AdapterGrpc) GetCardToken(ctx context.Context, cardTokenRequest *proto.
 	for _, v := range *res_list_card {
 		res_card_proto := proto.Card{ 	Id: uint32(v.ID),
 										CardNumber: v.CardNumber,
+										AccountId: v.AccountId,
 										Type: 		v.Type,
 										Model: 		v.Model,
 										Status: 	v.Status,
