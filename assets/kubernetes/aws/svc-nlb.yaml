@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: &app-name svc-go-tokenization-grpc
+  namespace: test-a
+  labels:
+    app: *app-name
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-name: nlb-go-tokenization-grpc
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb-ip
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internal
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: GRPC
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+    service.beta.kubernetes.io/aws-load-balancer-attributes: deletion_protection.enabled=false
+spec:
+  type: ClusterIP
+  ports:
+  - port: 65001
+    targetPort: 65001
+    protocol: TCP
+    name: http
+  selector:
+    app: go-tokenization-grpc

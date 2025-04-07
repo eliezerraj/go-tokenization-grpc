@@ -46,8 +46,8 @@ type Card struct {
 	CardNumber		string  	`json:"card_number,omitempty"`
 	TokenData		string  	`json:"token_data,omitempty"`
 	AccountId		string		`json:"account_id,omitempty"`
-	Type			string  	`json:"card_type,omitempty"`
-	Model			string  	`json:"card_model,omitempty"`
+	Type			string  	`json:"type,omitempty"`
+	Model			string  	`json:"model,omitempty"`
 	Atc				int  		`json:"atc,omitempty"`
 	Status			string  	`json:"status,omitempty"`
 	ExpiredAt		time.Time 	`json:"expired_at,omitempty"`
