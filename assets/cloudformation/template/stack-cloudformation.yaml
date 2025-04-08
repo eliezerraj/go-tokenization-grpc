@@ -59,7 +59,7 @@ Resources:
               - //
               - Ref: providerURL
       Policies:
-      - PolicyName: OIDCRoleGoCardPolicy
+      - PolicyName: OIDCRoleGoTokenizationGrpcPolicy
         PolicyDocument:
           Version: '2012-10-17'
           Statement:
