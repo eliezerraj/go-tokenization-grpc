@@ -47,25 +47,25 @@ func (w *WorkerRepository) GetCardToken(ctx context.Context, card model.Card) (*
 	res_card_list := []model.Card{}
 	
 	// Query e Execute
-	query := `SELECT 	ca.id,
-						ca.card_number,
-						ac.account_id, 
-						ca.card_type,
-						ca.card_model, 
-						ct.token,
-						ca.atc,
-						ct.status,
-						ct.expired_at,
-						ct.created_at,
-						ct.updated_at,																									
-						ct.tenant_id	
-				FROM card_token ct,
-					 card ca,
-					 account ac
-				WHERE ct.token = $1
-				and ca.id = ct.fk_id_card
-				and ac.id = ca.fk_account_id 
-				order by ct.created_at desc`
+	query := `SELECT ca.id,
+					ca.card_number,
+					ac.account_id, 
+					ca.card_type,
+					ca.card_model, 
+					ct.token,
+					ca.atc,
+					ct.status,
+					ct.expired_at,
+					ct.created_at,
+					ct.updated_at,																									
+					ct.tenant_id	
+			FROM card_token ct,
+				card ca,
+				account ac
+			WHERE ct.token = $1
+			and ca.id = ct.fk_id_card
+			and ac.id = ca.fk_account_id 
+			order by ct.created_at desc`
 
 	rows, err := conn.Query(ctx, query, string(card.TokenData))
 	if err != nil {
