@@ -20,6 +20,9 @@ import (
 	//proto "github.com/eliezerraj/go-grpc-proto/protogen/token"
 
 	go_core_observ "github.com/eliezerraj/go-core/observability"
+
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/contrib/propagators/aws/xray"
 )
 
 var childLogger = log.With().Str("component","go-tokenization-grpc").Str("package","internal.adapter.grpc.server").Logger()
@@ -66,6 +69,11 @@ func (a *AdapterGrpc) GetPod(ctx context.Context, podRequest *proto.PodRequest) 
 // About get card from token
 func (a *AdapterGrpc) GetCardToken(ctx context.Context, cardTokenRequest *proto.CardTokenRequest) (*proto.ListCardTokenResponse, error) {
 	childLogger.Info().Str("func","GetCardToken").Interface("cardTokenRequest", cardTokenRequest).Send()
+
+	// get span trace-id
+	otel.SetTextMapPropagator(xray.Propagator{})
+	md, _ := metadata.FromIncomingContext(ctx)
+	ctx = otel.GetTextMapPropagator().Extract(ctx, go_core_observ.MetadataCarrier{md})
 
 	// Trace
 	span := tracerProvider.Span(ctx, "adpater.grpc.GetCardToken")
