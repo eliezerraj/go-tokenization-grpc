@@ -35,6 +35,7 @@ type Card struct {
 	ExpiredAt     *timestamp.Timestamp   `protobuf:"bytes,9,opt,name=expired_at,proto3" json:"expired_at,omitempty"`
 	UpdatedAt     *timestamp.Timestamp   `protobuf:"bytes,10,opt,name=updated_at,proto3" json:"updated_at,omitempty"`
 	AccountId     string                 `protobuf:"bytes,11,opt,name=account_id,proto3" json:"account_id,omitempty"`
+	FkAccountId   uint32                 `protobuf:"varint,12,opt,name=fk_account_id,proto3" json:"fk_account_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -144,6 +145,13 @@ func (x *Card) GetAccountId() string {
 		return x.AccountId
 	}
 	return ""
+}
+
+func (x *Card) GetFkAccountId() uint32 {
+	if x != nil {
+		return x.FkAccountId
+	}
+	return 0
 }
 
 type CardTokenRequest struct {
@@ -282,7 +290,7 @@ var File_proto_token_card_card_proto protoreflect.FileDescriptor
 
 const file_proto_token_card_card_proto_rawDesc = "" +
 	"\n" +
-	"\x1bproto/token/card/card.proto\x12\x05token\x1a\x1fgoogle/protobuf/timestamp.proto\"\x80\x03\n" +
+	"\x1bproto/token/card/card.proto\x12\x05token\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa6\x03\n" +
 	"\x04Card\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12 \n" +
 	"\vcard_number\x18\x02 \x01(\tR\vcard_number\x12\x12\n" +
@@ -305,7 +313,8 @@ const file_proto_token_card_card_proto_rawDesc = "" +
 	"updated_at\x12\x1e\n" +
 	"\n" +
 	"account_id\x18\v \x01(\tR\n" +
-	"account_id\"3\n" +
+	"account_id\x12$\n" +
+	"\rfk_account_id\x18\f \x01(\rR\rfk_account_id\"3\n" +
 	"\x10CardTokenRequest\x12\x1f\n" +
 	"\x04card\x18\x01 \x01(\v2\v.token.CardR\x04card\"4\n" +
 	"\x11CardTokenResponse\x12\x1f\n" +
