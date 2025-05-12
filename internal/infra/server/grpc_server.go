@@ -68,7 +68,7 @@ func (w *WorkerServer) StartGrpcServer(	ctx context.Context,
 
 	res := resource.NewWithAttributes(
 		semconv.SchemaURL,
-		semconv.ServiceName("go-tokenization-grpc"),
+		semconv.ServiceName(appServer.InfoPod.PodName),
 	)
 
 	tp := sdktrace.NewTracerProvider(
