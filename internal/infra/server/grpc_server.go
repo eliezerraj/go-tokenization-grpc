@@ -132,8 +132,21 @@ func (w *WorkerServer) StartGrpcServer(	ctx context.Context,
 		}
 	}()
 
-	// get signal
+	// Get SIGNALS
 	ch := make(chan os.Signal, 1)
-	signal.Notify(ch, os.Interrupt, syscall.SIGTERM )
-	<-ch
+	signal.Notify(ch, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
+
+	for {
+		sig := <-ch
+
+		switch sig {
+		case syscall.SIGHUP:
+			childLogger.Info().Msg("Received SIGHUP: reloading configuration...")
+		case syscall.SIGINT, syscall.SIGTERM:
+			childLogger.Info().Msg("Received SIGINT/SIGTERM termination signal. Exiting")
+			return
+		default:
+			childLogger.Info().Interface("Received signal:", sig).Send()
+		}
+	}
 }
