@@ -14,7 +14,7 @@ func GetOtelEnv() go_core_observ.ConfigOTEL {
 
 	err := godotenv.Load(".env")
 	if err != nil {
-		childLogger.Error().Err(err).Send()
+		childLogger.Info().Err(err).Send()
 	}
 
 	var configOTEL	go_core_observ.ConfigOTEL
