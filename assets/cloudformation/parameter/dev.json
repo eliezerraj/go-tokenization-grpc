@@ -9,6 +9,6 @@
   },
   {
     "ParameterKey": "providerURL",
-    "ParameterValue": "https://oidc.eks.us-east-2.amazonaws.com/id/AFCFC1A1AD548E003BC3CEAFB64AADA3"
+    "ParameterValue": "https://oidc.eks.us-east-2.amazonaws.com/id/EFC4AFFB92FAA16E7D3568EA5FD390A6"
   }
 ]
