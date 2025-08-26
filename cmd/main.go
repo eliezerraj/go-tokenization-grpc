@@ -44,7 +44,8 @@ func init(){
 func main()  {
 	childLogger.Info().Str("func","main").Interface("appServer :",appServer).Send()
 
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
 	// Open Database
 	count := 1
