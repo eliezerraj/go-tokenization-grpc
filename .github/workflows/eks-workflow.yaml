@@ -185,7 +185,7 @@ jobs:
 
       - name: Deployment k8 manifests
         run: |
-          kubectl apply --kubeconfig /home/runner/.kube/config --validate=false --validate=false --namespace=${{ needs.setup-environment.outputs.CLUSTER_NAMESPACE }} -f ${{ needs.setup-environment.outputs.KUBERNETES_MANIFEST_PATH }}/configmap-02.yaml
+          kubectl apply --kubeconfig /home/runner/.kube/config --validate=false --validate=false --namespace=${{ needs.setup-environment.outputs.CLUSTER_NAMESPACE }} -f ${{ needs.setup-environment.outputs.KUBERNETES_MANIFEST_PATH }}/configmap.yaml
           kubectl apply --kubeconfig /home/runner/.kube/config --validate=false --validate=false --namespace=${{ needs.setup-environment.outputs.CLUSTER_NAMESPACE }} -f ${{ needs.setup-environment.outputs.KUBERNETES_MANIFEST_PATH }}/service-account.yaml
           kubectl apply --kubeconfig /home/runner/.kube/config --validate=false --validate=false --namespace=${{ needs.setup-environment.outputs.CLUSTER_NAMESPACE }} -f ${{ needs.setup-environment.outputs.KUBERNETES_MANIFEST_PATH }}/deployment.yaml
           kubectl apply --kubeconfig /home/runner/.kube/config --validate=false --validate=false --namespace=${{ needs.setup-environment.outputs.CLUSTER_NAMESPACE }} -f ${{ needs.setup-environment.outputs.KUBERNETES_MANIFEST_PATH }}/svc-nlb.yaml

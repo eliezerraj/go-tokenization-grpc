@@ -6,8 +6,8 @@ metadata:
   labels:
     app: *app-name
 data:
-  API_VERSION: "3.0"
-  POD_NAME: "go-tokenization-grpc.k8"
+  API_VERSION: "3.3"
+  POD_NAME: "go-tokenization-grpc.eks-arch-02"
   PORT: ":65001"
   DB_HOST: "rds-proxy-db-arch-02.proxy-cj4aqa08ettf.us-east-2.rds.amazonaws.com"
   DB_PORT: "5432"
@@ -21,4 +21,4 @@ data:
   OTEL_EXPORTER_OTLP_ENDPOINT: "arch-eks-02-xray-collector.default.svc.cluster.local:4317"
   USE_STDOUT_TRACER_EXPORTER: "false"
   USE_OTLP_COLLECTOR: "true" 
-  AWS_CLOUDWATCH_LOG_GROUP_NAMES: "/dock/eks/eks-arch-02/"
+  AWS_CLOUDWATCH_LOG_GROUP_NAMES: "/dock/eks/eks-arch-02"
