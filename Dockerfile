@@ -1,7 +1,7 @@
 #docker build -t go-tokenization-grpc .
 #docker run -dit --name go-tokenization-grpc -p 65001:65001 go-tokenization-grpc sleep infinity
 
-FROM golang:1.23.3 As builder
+FROM golang:1.24 As builder
 
 RUN apt-get update && apt-get install bash && apt-get install -y --no-install-recommends ca-certificates
 
