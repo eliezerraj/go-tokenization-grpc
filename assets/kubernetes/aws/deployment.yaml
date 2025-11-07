@@ -17,7 +17,7 @@ spec:
       labels:
         app: *app-name
     spec:
-      serviceAccountName: sa-go-tokenization-grpc
+      serviceAccountName: sa-go-tokenization-grpc-pod-identity
       volumes:
       - name: volume-secret
         secret:
