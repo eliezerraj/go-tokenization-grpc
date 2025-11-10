@@ -49,7 +49,7 @@ func (a *AdapterGrpc) GetPod(ctx context.Context, podRequest *proto.PodRequest) 
 	childLogger.Info().Str("func","GetPodInfo").Send()
 
 	// Trace
-	span := tracerProvider.Span(ctx, "adpater.grpc.GetPod")
+	ctx, span := tracerProvider.SpanCtx(ctx, "adpater.grpc.GetPod")
 	defer span.End()
 
 	pod := proto.Pod{	IpAddress: 	a.appServer.InfoPod.IPAddress,
@@ -79,7 +79,7 @@ func (a *AdapterGrpc) GetCardToken(ctx context.Context, cardTokenRequest *proto.
 	ctx = otel.GetTextMapPropagator().Extract(ctx, go_core_observ.MetadataCarrier{md})
 	
 	// Trace
-	span := tracerProvider.Span(ctx, "adpater.grpc.GetCardToken")
+	ctx, span := tracerProvider.SpanCtx(ctx, "adpater.grpc.GetCardToken")
 	defer span.End()
 
 	// get request-id

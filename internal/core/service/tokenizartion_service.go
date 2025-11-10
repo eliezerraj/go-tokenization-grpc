@@ -35,7 +35,7 @@ func (s * WorkerService) GetCardToken(ctx context.Context, card model.Card) (*[]
 	childLogger.Info().Str("func","GetCardToken").Interface("trace-request-id", ctx.Value("trace-request-id")).Interface("card", card).Send()
 
 	// Trace
-	span := tracerProvider.Span(ctx, "service.GetCardToken")
+	ctx, span := tracerProvider.SpanCtx(ctx, "service.GetCardToken")
 	defer span.End()
 
 	// Get card token information from repo
